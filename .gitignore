@@ -1,0 +1,11 @@
+# 分享打包产物与截图缓存，不入库
+.trae-html-share-packages/
+.screenshots/
+*.zip
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

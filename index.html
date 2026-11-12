@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>星光长城 · 英魂永存</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="scene" id="scene">
+    <div class="frame" id="frame">
+      <img id="bg" src="images/great-wall-bg.jpg" alt="夜色中的金色长城" />
+    </div>
+  </div>
+
+  <div class="grade"></div>
+  <canvas id="dust"></canvas>
+  <div class="ritual" id="ritual" aria-hidden="true"><span class="meteor"></span></div>
+
+  <header>
+    <h1>巍巍长城，星光不灭</h1>
+    <div class="top-right">
+      <nav class="top-nav" aria-label="纪念页面">
+        <a href="timeline.html">纪念时间线</a>
+        <a href="letters.html">纪念留言</a>
+      </nav>
+      <form class="search" id="search" role="search" autocomplete="off">
+        <input id="q" type="search" placeholder="输入英烈姓名，为他点亮一颗星" aria-label="搜索英烈姓名" />
+        <button type="submit">寻人</button>
+        <span class="q-msg" id="qmsg"></span>
+      </form>
+    </div>
+  </header>
+
+  <footer>
+    <div class="slogan">山河无恙，盛世如愿；英魂化作星辰，筑成民族长城</div>
+    <p class="lit-count" id="litCount" aria-live="polite"></p>
+  </footer>
+
+  <div class="tools" id="tools">
+    <div class="tools-menu" id="toolsMenu">
+      <button id="btnRoster" type="button"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;display:block" aria-hidden="true"><path d="M5 4.5h13.5v15H6.8A1.8 1.8 0 0 1 5 17.7z"/><path d="M5 17.7a1.8 1.8 0 0 1 1.8-1.8h11.7"/><path d="M8.6 8h7"/><path d="M8.6 11.2h5"/></svg>英烈名录</button>
+      <button id="btnSound" type="button"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;display:block" aria-hidden="true"><path d="M4 9.2h3.4L12 5.6v12.8L7.4 14.8H4z"/><path d="M15.4 9.4a3.6 3.6 0 0 1 0 5.2"/><path d="M17.8 6.8a7.2 7.2 0 0 1 0 10.4"/></svg><span id="btnSoundLabel">声音</span></button>
+      <button id="btnReset" type="button"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;display:block" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.6v4.6h-4.6"/></svg>复位</button>
+    </div>
+    <button id="btnMenu" class="tools-toggle" type="button" aria-expanded="false" aria-controls="toolsMenu">纪念</button>
+  </div>
+</div>
+
+<div class="veil" id="veil">
+  <div class="panel">
+    <button class="m-close" id="mClose" type="button" aria-label="关闭">×</button>
+    <div class="m-brand">星光长城 · 英烈不朽</div>
+    <div class="m-brand-sub">每一颗星光，都是一位英雄</div>
+    <div class="m-rule"></div>
+
+    <div class="m-section">英烈事迹</div>
+    <div class="m-meta">
+      <span>姓名</span><b class="m-name-inline" id="mName"></b>
+      <span>身份</span><b id="mType"></b>
+      <span>生卒</span><b id="mLife"></b>
+      <span>职务</span><b id="mRole"></b>
+    </div>
+    <p class="m-story" id="mStory"></p>
+
+    <div class="m-section">致敬语录</div>
+    <div class="m-quote" id="mQuote"></div>
+    <div class="m-source" id="mSource"></div>
+    <div class="m-count" id="mCount"></div>
+  </div>
+</div>
+
+<div class="veil" id="roster">
+  <div class="panel roster-panel">
+    <button class="m-close" id="rClose" type="button" aria-label="关闭">×</button>
+    <div class="r-title">英烈名录</div>
+    <div class="r-sub" id="rSub">星光名册</div>
+    <div class="r-grid" id="rGrid"></div>
+    <div class="r-tip">点击姓名，阅读他们的故事</div>
+    <div class="r-end" id="rEnd">山河已无恙，这盛世如您所愿。</div>
+  </div>
+</div>
+
+<script src="js/stars.js"></script>
+
+<script src="js/heroes.js"></script>
+
+<script src="js/particle.js"></script>
+
+<script src="js/app.js"></script>
+</body>
+</html>

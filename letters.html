@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>纪念留言 · 星光长城</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="doc">
+
+<div class="doc-bg" aria-hidden="true">
+  <img src="images/great-wall-bg.jpg" alt="" />
+</div>
+
+<a class="doc-back" href="index.html">← 返回星空长城</a>
+
+<main class="doc">
+  <div class="doc-head">
+    <h1 class="doc-title">纪念留言</h1>
+    <p class="doc-sub">写下你想对英烈说的话</p>
+    <div class="doc-rule"></div>
+  </div>
+
+  <div class="doc-card">
+    <form class="mb-form" id="mbForm" autocomplete="off">
+      <input id="mbName" type="text" maxlength="20" placeholder="署名（可留空）" />
+      <textarea id="mbText" maxlength="120" placeholder="山河已无恙，想对您说……"></textarea>
+      <div class="mb-row">
+        <span id="mbCount2">0 / 120</span>
+        <button type="submit">献上一句</button>
+      </div>
+    </form>
+    <p class="mb-hint">留言保存在本机浏览器，换设备或清除缓存后将不再显示。</p>
+
+    <div class="mb-list" id="mbList"></div>
+    <p class="mb-empty" id="mbEmpty">还没有留言。第一句，由你写下。</p>
+  </div>
+
+  <div class="doc-nav">
+    <a href="timeline.html">翻开纪念时间线</a>
+    <a href="index.html">回到星空</a>
+  </div>
+</main>
+
+<script>
+
+(function () {
+  'use strict';
+  var KEY = 'gw_letters_v1';
+  var list = document.getElementById('mbList');
+  var empty = document.getElementById('mbEmpty');
+  var form = document.getElementById('mbForm');
+  var nameEl = document.getElementById('mbName');
+  var textEl = document.getElementById('mbText');
+  var countEl = document.getElementById('mbCount2');
+
+  function load() {
+    try {
+      var arr = JSON.parse(window.localStorage.getItem(KEY) || '[]');
+      return Array.isArray(arr) ? arr : [];
+    } catch (err) { return []; }
+  }
+
+  function fmtTime(t) {
+    var d = new Date(t);
+    if (isNaN(d.getTime())) return '';
+    var p = function (n) { return (n < 10 ? '0' : '') + n; };
+    return d.getFullYear() + '.' + p(d.getMonth() + 1) + '.' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+  }
+
+  function render() {
+    var arr = load();
+    list.textContent = '';
+    empty.style.display = arr.length ? 'none' : 'block';
+    arr.forEach(function (item) {
+      var wrap = document.createElement('div');
+      wrap.className = 'mb-item';
+      var p = document.createElement('p');
+      p.textContent = item.m;
+      var meta = document.createElement('div');
+      meta.className = 'mb-meta';
+      meta.textContent = (item.n || '匿名') + ' · ' + fmtTime(item.t);
+      wrap.appendChild(p);
+      wrap.appendChild(meta);
+      list.appendChild(wrap);
+    });
+  }
+
+  function lantern() {
+    var l = document.createElement('div');
+    l.className = 'lantern';
+    l.setAttribute('aria-hidden', 'true');
+    l.style.left = (24 + Math.random() * 52).toFixed(1) + '%';
+    l.style.setProperty('--drift', (Math.random() * 180 - 90).toFixed(0) + 'px');
+    l.style.setProperty('--sway', (7 + Math.random() * 11).toFixed(0) + 'px');
+    l.style.setProperty('--swayDur', (5 + Math.random() * 2).toFixed(1) + 's');
+    l.style.setProperty('--dur', (13 + Math.random() * 4).toFixed(1) + 's');
+    l.innerHTML =
+      '<span class="l-body">' +
+        '<span class="l-halo"></span>' +
+        '<span class="l-paper"><span class="l-base"></span></span>' +
+        '<span class="l-flame"></span>' +
+      '</span>';
+    document.body.appendChild(l);
+    var gone = function () { if (l.parentNode) l.parentNode.removeChild(l); };
+    l.addEventListener('animationend', function (e) {
+      if (e.animationName === 'lanternRise') gone();
+    });
+    window.setTimeout(gone, 20000);
+  }
+
+  textEl.addEventListener('input', function () {
+    countEl.textContent = textEl.value.length + ' / 120';
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var msg = textEl.value.trim();
+    if (!msg) { textEl.focus(); return; }
+    var arr = load();
+    arr.unshift({
+      n: nameEl.value.trim().slice(0, 20) || '匿名',
+      m: msg.slice(0, 120),
+      t: Date.now()
+    });
+    try { window.localStorage.setItem(KEY, JSON.stringify(arr.slice(0, 60))); } catch (err) {  }
+    textEl.value = '';
+    countEl.textContent = '0 / 120';
+    render();
+    lantern();
+    list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  render();
+})();
+
+</script>
+
+</body>
+</html>
