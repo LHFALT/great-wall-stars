@@ -26,14 +26,12 @@
 
   const PALETTE = ['#F6C98A', '#E2543F'];
 
-  // 北斗七星：斗身 0-1-2-3，斗柄 3-4-5-6，勺口在 3-0 一侧敞开
   const BEIDOU_SHAPE = [
     [0.00, 0.00], [-0.25, -0.12], [-0.53, 0.22], [-0.35, 0.40],
     [-0.45, 0.67], [-0.49, 0.91], [-0.77, 1.17]
   ];
   const BEIDOU_R = [4.0, 3.6, 3.6, 4.6, 3.8, 3.6, 3.4];
   const BEIDOU_LINKS = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6]];
-  // 七星对应人物：天枢—天璇—天玑—天权—玉衡—开阳—摇光
   const BEIDOU_HEROES = ['林则徐', '邓世昌', '孙中山', '毛泽东', '李大钊', '彭德怀', '张学良'];
   let beidou = [];
   const beidouLit = new Map();
@@ -46,7 +44,6 @@
     return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
   }
 
-  // 星点光晕预渲染成精灵图，避免每帧为上千颗星重复创建径向渐变
   const SPRITES = PALETTE.map(function (hex) {
     const size = 96;
     const c = document.createElement('canvas');
@@ -220,7 +217,6 @@
       return q;
     });
 
-    // 页面顶部居中，纵向避开导航与搜索框
     let top = 14;
     const link = document.querySelector('.top-nav a');
     if (link) {
@@ -244,10 +240,8 @@
       };
     });
 
-    // 天枢（0）略微上移
     beidou[0].y -= S * 0.07;
 
-    // 隐藏落在斗身里的普通星点，避免勺子中间多出一颗
     const bowl = beidou.slice(0, 4);
     for (let i = 0; i < stars.length; i++) {
       stars[i].hide = insideQuad(stars[i].x, stars[i].y, bowl);
@@ -401,7 +395,6 @@
 
     const bRise = Math.min(1, Math.max(0, (now - revealAt) / 2200));
     if (beidou.length && bRise > 0) {
-      // 连线，让七星从普通星点里区分出来
       ctx.lineWidth = 1;
       ctx.strokeStyle = 'rgba(246,201,138,' + (0.28 * bRise) + ')';
       ctx.beginPath();
@@ -426,7 +419,6 @@
         const tw = 0.88 + 0.12 * Math.sin(now * 0.0011 + b.phase);
         const alpha = Math.min(1, b.a * tw * bRise * (hot ? 1.6 : 1 + 0.35 * flash));
 
-        // 柔和外晕
         const halo = b.r * 3.6 * (hot ? 1.6 : 1 + 0.5 * flash);
         const g1 = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, halo);
         g1.addColorStop(0, 'rgba(255,246,228,' + (alpha * 0.62) + ')');
@@ -437,7 +429,6 @@
         ctx.arc(b.x, b.y, halo, 0, Math.PI * 2);
         ctx.fill();
 
-        // 十字星芒
         const ray = b.r * 4.4;
         const gh = ctx.createLinearGradient(b.x - ray, b.y, b.x + ray, b.y);
         gh.addColorStop(0, 'rgba(255,248,232,0)');
@@ -459,7 +450,6 @@
         ctx.lineTo(b.x, b.y + ray);
         ctx.stroke();
 
-        // 实心亮核
         const core = b.r * 1.25;
         const g2 = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, core);
         g2.addColorStop(0, 'rgba(255,255,255,' + alpha + ')');

@@ -2,7 +2,6 @@
   'use strict';
 
   const HEROES = (window.HEROES && window.HEROES.length) ? window.HEROES : [];
-  // 北斗七星对应的近现代人物不属于「英烈名录」，单独排除
   const rosterHeroes = HEROES.filter(function (h) { return !h.beidou; });
   const heroByName = {};
   HEROES.forEach(function (h, i) {
@@ -54,7 +53,6 @@
   const rSub = document.getElementById('rSub');
   rSub.textContent = '共 ' + rosterHeroes.length + ' 位可考英烈与科学家';
 
-  // 名录数量较大，首次打开时再一次性渲染，避免拖慢首屏
   let rosterBuilt = false;
   function buildRoster() {
     if (rosterBuilt) return;

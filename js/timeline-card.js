@@ -1,7 +1,3 @@
-/* 时间线事件详情卡片
-   点击时间线上的事件名（.tl-name）弹出卡片：
-   年份 / 标题 / 标签 / 一句摘要 / 展开详情（背景、经过、影响、关键数字、相关资料）。
-   数据键名与 timeline.html 中事件名的文本保持一致。 */
 (function () {
   'use strict';
 
@@ -118,12 +114,10 @@
     }
   };
 
-  // 用键名补齐标题字段
   for (var name in EVENTS) {
     EVENTS[name].title = name;
   }
 
-  // 详情中的前三个分区
   var SECTIONS = [
     ['background', '背景'],
     ['course', '经过'],
@@ -145,7 +139,6 @@
   var trigger = null;
   var lockTop = 0;
 
-  // 一次性构建弹窗骨架
   function build() {
     veil = document.createElement('div');
     veil.className = 'ev-veil';
@@ -216,7 +209,6 @@
     }
   }
 
-  // 填充卡片内容
   function fill(ev) {
     yearEl.textContent = ev.year;
     titleEl.textContent = ev.title;
@@ -240,7 +232,6 @@
       return '<li>' + r + '</li>';
     }).join('');
 
-    // 配图按事件名存放在 images 目录下
     imgEl.parentNode.style.display = '';
     imgEl.src = 'images/' + encodeURIComponent(ev.title) + '.jpg';
     imgEl.alt = ev.title;
@@ -249,7 +240,6 @@
     card.scrollTop = 0;
   }
 
-  // 读取当前实际滚动位置（本页由 body 承担滚动）
   function getScrollTop() {
     return Math.max(document.body.scrollTop, document.documentElement.scrollTop, window.pageYOffset || 0);
   }
@@ -258,7 +248,6 @@
     if (!veil) build();
     fill(ev);
     lockTop = getScrollTop();
-    // 用固定定位冻结页面，避免遮罩打开时背景滚动
     document.body.style.top = -lockTop + 'px';
     document.body.classList.add('ev-lock');
     veil.classList.add('open');
@@ -273,13 +262,11 @@
     veil.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('ev-lock');
     document.body.style.top = '';
-    // 解除冻结后回到原来的滚动位置
     document.body.scrollTop = lockTop;
     document.documentElement.scrollTop = lockTop;
     if (trigger) trigger.focus();
   }
 
-  // 给有数据的事件名绑定点击 / 键盘事件
   var names = document.querySelectorAll('.tl-name');
   for (var i = 0; i < names.length; i++) {
     var el = names[i];
